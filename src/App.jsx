@@ -7,6 +7,7 @@ const Todo = () => {
   const [editInput, setEditInput] = useState("")
   const [editIndex, setEditIndex] = useState(null)
   const [showCompleted, setShowCompleted] = useState(false)
+  // const [alldata, setAllData] = useState([])
 
   function Onhandlechange(e) {
     setData(e.target.value)
@@ -45,11 +46,24 @@ const Todo = () => {
     setEditIndex(null)
   }
 
-  function toggleCompletedTasks() {
+
+
+  function Completedtasks() {
     setShowCompleted(!showCompleted)
   }
+  function alltasks() {
+     setShowCompleted(false)
+  }
+  // function toggleCompletedTasks() {
+  //   setShowCompleted(!showCompleted)
+  // }
+  // function alldata() {
+  //   let all=datas.filter((task)=>task.done === true && task.done === false)
+  //   setAllData(all)
+  // }
 
-  const completedTasks = datas.filter((task) => task.done === true)
+  // const completedTasks = datas.filter((task) => task.done === true)
+  // const alltasks =datas.filter((task)=>task.done === true && task.done === false)
 
   return (
     <div className="app">
@@ -78,14 +92,18 @@ const Todo = () => {
         </div>
       )}
 
-      <div className="filter-section">
+ 
+      {/* {/* <div className="filter-section">
         <button onClick={toggleCompletedTasks} className="filter-btn">
           {showCompleted ? "Hide Completed Tasks" : "Show Completed Tasks"}
         </button>
-      </div>
+      </div> */}
 
-      <div className="task-list">
-        {datas.map((val, index) => (
+      {/* <div className="task-list">
+        {datas.length === 0 ? (
+            <p style={{ color: "gray" }}>No completed tasks yet.</p>
+          ):(
+        datas.map((val, index) => (
           <p style={{ color: "red" }} key={index}>
             <span>
               {val.done ? <del>{val.text}</del> : val.text}
@@ -96,9 +114,14 @@ const Todo = () => {
             </button>
             <button onClick={() => editTask(index)} className="edit-btn">Edit</button>
           </p>
-        ))}
-      </div>
+        )))}
+      </div> */}
 
+
+
+
+
+{/* 
       {showCompleted && (
         <div className="completed-section">
           <h3 style={{ color: "green" }}>✅ Completed Tasks</h3>
@@ -112,7 +135,51 @@ const Todo = () => {
             ))
           )}
         </div>
-      )}
+      )} */} 
+      {/* <div className="filter-section">
+  <button onClick={() => setShowCompleted(false)} className="filter-btn">
+    Show All Tasks
+  </button>
+  <button onClick={() => setShowCompleted(true)} className="filter-btn">
+    Show Completed Tasks
+  </button>
+</div> */}
+      <div className="filter-section">
+  <button onClick={alltasks} className="filter-btn">
+    Show All Tasks
+  </button>
+  <button onClick={Completedtasks} className="filter-btn">
+    Show Completed Tasks
+  </button>
+</div>
+
+<div className="task-list">
+  {showCompleted
+    ? // ✅ If showCompleted = true → show only completed tasks
+      datas
+        .filter((task) => task.done)
+        .map((val, index) => (
+          <p style={{ color: "green" }} key={index}>
+            <del>{val.text}</del>
+          </p>
+        ))
+    : // ❌ Else → show all tasks (default view)
+      datas.map((val, index) => (
+        <p style={{ color: "red" }} key={index}>
+          <span>{val.done ? <del>{val.text}</del> : val.text}</span>
+          <button onClick={() => del(index)} className="delete-btn">
+            Delete
+          </button>
+          <button onClick={() => onCompleted(index)} className="complete-btn">
+            {val.done ? "Undo" : "Complete"}
+          </button>
+          <button onClick={() => editTask(index)} className="edit-btn">
+            Edit
+          </button>
+        </p>
+      ))}
+</div>
+
     </div>
   )
 }
